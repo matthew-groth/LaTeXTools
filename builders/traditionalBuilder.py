@@ -12,6 +12,7 @@ else:
 from pdfBuilder import PdfBuilder
 import shlex
 
+
 DEBUG = False
 
 DEFAULT_COMMAND_LATEXMK = ["latexmk", "-cd", "-f", "-%E",
@@ -70,6 +71,7 @@ class TraditionalBuilder(PdfBuilder):
 			if "%E" in c:
 				engine_used = True
 				break
+
 
 		texify = cmd[0] == 'texify'
 		latexmk = cmd[0] == 'latexmk'
@@ -136,8 +138,10 @@ class TraditionalBuilder(PdfBuilder):
 
 		self.display("done.\n")
 
+
+
 		# This is for debugging purposes 
 		if self.display_log:
 			self.display("\nCommand results:\n")
 			self.display(self.out)
-			self.display("\n\n")	
+			self.display("\n\n")

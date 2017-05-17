@@ -1,5 +1,8 @@
 #!/bin/bash
 
+open -a "Finder"
+
+
 # displayfile (Skim)
 #
 # Usage: displayline [-r] [-g] PDFFILE
@@ -33,6 +36,9 @@ file="$1"
 # expand relative paths
 [ "${file:0:1}" == "/" ] || file="${PWD}/${file}"
 
+
+
+
 # pass file arguments as NULL-separated string to osascript
 # pass through cat to get them as raw bytes to preserve non-ASCII characters
 /usr/bin/osascript \
@@ -43,8 +49,20 @@ file="$1"
   -e "  if $revert then" \
   -e "    try" \
   -e "      set theDocs to get documents whose path is thePath" \
-  -e "      if (count of theDocs) > 0 then revert theDocs" \
+  -e "      if (count of theDocs) > 0 then revert theDocs \
   -e "    end try" \
   -e "  end if" \
   -e "  open theFile" \
   -e "end tell"
+
+# I haven't figured out how to get this working up there yet
+
+
+osascript -e '
+
+
+tell application "Skim"
+  
+  convert notes document 1
+  
+end tell'

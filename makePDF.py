@@ -1,6 +1,9 @@
 	# ST2/ST3 compat
 from __future__ import print_function
 
+import time
+import subprocess
+
 import sublime
 if sublime.version() < '3000':
 	# we are on ST2 and Python 2.X
@@ -334,6 +337,11 @@ class CmdThread ( threading.Thread ):
 				print (proc.returncode)
 				# At this point, out contains the output from the current command;
 				# we pass it to the cmd_iterator and get the next command, until completion
+
+	
+
+
+				
 		except:
 			self.caller.show_output_panel()
 			self.caller.output("\n\nCOULD NOT COMPILE!\n\n")
@@ -796,6 +804,7 @@ class make_pdfCommand(sublime_plugin.WindowCommand):
 		)
 
 
+
 	# Threading headaches :-)
 	# The following function is what gets called from CmdThread; in turn,
 	# this spawns append_data, but on the main thread.
@@ -890,7 +899,19 @@ class make_pdfCommand(sublime_plugin.WindowCommand):
 						)
 
 			if get_setting('open_pdf_on_build', True, view=self.view):
+
+				
+		# time.sleep(4)
+
+	
+
+
 				self.view.run_command("jump_to_pdf", {"from_keybinding": False})
+
+				# FINALLY FOUND THE RIGHT PLACE.
+				time.sleep(1)
+				self.proc = subprocess.Popen(['osascript','-e','tell application "Skim" to convert notes document 1'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
+				print("and here")
 
 	if _HAS_PHANTOMS:
 		def _find_errors(self, errors, error_class):
